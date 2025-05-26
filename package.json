@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node src/server.js",
-    "build": "echo 'No build step required'",
+    "build": "mkdir -p build && echo 'Build step completed' > build/placeholder.txt",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev"
   },
