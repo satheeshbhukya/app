@@ -1,17 +1,15 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+const fastify = require('./App');
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
+const port = Number(process.env.PORT) || 3000;
+const host = process.env.RENDER ? '0.0.0.0' : 'localhost';
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+fastify.listen({ host, port }, (err, address) => {
+  if (err) {
+    fastify.log.error(err);
+    process.exit(1);
+  }
+  console.log(`Fastify server running at ${address}`);
+  console.log(`Route index: /`);
+  console.log(`Route identify: /identify`);
+  console.log(`Swagger UI: /documentation`);
+});

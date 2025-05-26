@@ -1,25 +1,19 @@
-import logo from './logo.svg';
-import './App.css';
+const Fastify = require('fastify');
+const swagger = require('./plugins/swagger');
+const validator = require('./plugins/validator');
+const prisma = require('./plugins/prisma.js');
+const publicFiles = require('./plugins/publicFiles');
+const routes = require('./routes');
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const fastify = Fastify({ logger: true });
 
-export default App;
+// Register plugins
+fastify.register(swagger);
+fastify.register(validator);
+fastify.register(prisma);
+fastify.register(publicFiles);
+
+// Register routes
+fastify.register(routes);
+
+module.exports = fastify;
