@@ -1,70 +1,176 @@
-# Getting Started with Create React App
+# Fastify Prisma Contact Management App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Description
 
-## Available Scripts
+This application is a Fastify web service that manages customer contact information using Prisma as the ORM for a PostgreSQL database. It provides an endpoint to consolidate contact information for customers.
 
-In the project directory, you can run:
+## Features
 
-### `npm start`
+- Fastify framework for building the web service
+- Prisma for database management
+- RESTful API endpoint `/identify` for handling customer contact information
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Prerequisites
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- Node.js (version 14 or higher)
+- PostgreSQL database
+- npm (Node package manager)
 
-### `npm test`
+## Installation
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+1. Clone the repository:
 
-### `npm run build`
+   ```bash
+   git clone https://github.com/satheeshbhukya/app.git
+   cd app
+   ```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+2. Install dependencies:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+   ```bash
+   npm install
+   ```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+3. Set up your environment variables:
 
-### `npm run eject`
+   Create a `.env` file in the root directory and add your database URL:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+   ```plaintext
+   DATABASE_URL=your_postgresql_database_url
+   ```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+4. Run Prisma migrations:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+   ```bash
+   npm run prisma:migrate
+   ```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Running the Application
 
-## Learn More
+To start the application, run:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```bash
+npm start
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+The server will start, and you can access the API at `http://localhost:3000`.
 
-### Code Splitting
+## API Usage
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### Example Requests and Responses
 
-### Analyzing the Bundle Size
+1. **Request**: `{ email: 'mcfly@hillvalley.edu', phoneNumber: '123456' }`
+   - **Response**:
+   ```json
+   {
+     "contact": {
+       "primaryContatctId": 1,
+       "emails": [
+         "mcfly@hillvalley.edu"
+       ],
+       "phoneNumbers": [
+         "123456"
+       ],
+       "secondaryContactIds": []
+     }
+   }
+   ```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+2. **Request**: `{ email: 'lorraine@hillvalley.edu', phoneNumber: null }`
+   - **Response**:
+   ```json
+   {
+     "contact": {
+       "primaryContatctId": 2,
+       "emails": [
+         "lorraine@hillvalley.edu"
+       ],
+       "phoneNumbers": [],
+       "secondaryContactIds": []
+     }
+   }
+   ```
 
-### Making a Progressive Web App
+3. **Request**: `{ email: null, phoneNumber: '123456' }`
+   - **Response**:
+   ```json
+   {
+     "contact": {
+       "primaryContatctId": 1,
+       "emails": [
+         "mcfly@hillvalley.edu"
+       ],
+       "phoneNumbers": [
+         "123456"
+       ],
+       "secondaryContactIds": []
+     }
+   }
+   ```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+4. **Request**: `{ email: 'biffsucks@hillvalley.edu', phoneNumber: '717171' }`
+   - **Response**:
+   ```json
+   {
+     "contact": {
+       "primaryContatctId": 3,
+       "emails": [
+         "biffsucks@hillvalley.edu",
+         "george@hillvalley.edu"
+       ],
+       "phoneNumbers": [
+         "717171"
+       ],
+       "secondaryContactIds": [
+         6
+       ]
+     }
+   }
+   ```
 
-### Advanced Configuration
+5. **Request**: `{ email: 'george@hillvalley.edu', phoneNumber: '717171' }`
+   - **Response**:
+   ```json
+   {
+     "contact": {
+       "primaryContatctId": 3,
+       "emails": [
+         "biffsucks@hillvalley.edu",
+         "george@hillvalley.edu"
+       ],
+       "phoneNumbers": [
+         "717171"
+       ],
+       "secondaryContactIds": [
+         6
+       ]
+     }
+   }
+   ```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+6. **Request**: `{ email: null, phoneNumber: null }`
+   - **Response**:
+   ```json
+   {
+     "error": "At least one of email or phoneNumber is required."
+   }
+   ```
 
-### Deployment
+## Deployment
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+To deploy the application, run:
 
-### `npm run build` fails to minify
+```bash
+npm run build
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Then follow your deployment platform's instructions to deploy the contents of the `build` directory.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Acknowledgments
+
+- [Fastify](https://www.fastify.io/)
+- [Prisma](https://www.prisma.io/)
