@@ -156,6 +156,84 @@ The server will start, and you can access the API at `http://localhost:3000`.
    }
    ```
 
+
+   ## Testing with Postman
+
+You can use Postman to test the API endpoints easily. Follow these steps to set up a request:
+
+1. **Open Postman**:
+   - Launch the Postman application on your computer.
+
+2. **Create a New Request**:
+   - Click on the `+` button or select `New` > `Request` from the top left corner.
+
+3. **Set the Request Type**:
+   - Change the request type from `GET` to `POST` by clicking on the dropdown menu next to the URL field.
+
+4. **Enter the Request URL**:
+   - For the `/identify` endpoint, enter:
+     ```
+     http://localhost:3000/identify
+     ```
+
+5. **Set the Headers**:
+   - Click on the `Headers` tab below the URL field.
+   - Add a new header:
+     - **Key**: `Content-Type`
+     - **Value**: `application/json`
+
+6. **Set the Request Body**:
+   - Click on the `Body` tab next to the `Headers` tab.
+   - Select the `raw` radio button.
+   - Enter the following JSON data:
+     ```json
+     {
+         "email": "test@example.com",
+         "phoneNumber": "123456"
+     }
+     ```
+
+7. **Send the Request**:
+   - Click the `Send` button to send the request to your Fastify server.
+
+8. **View the Response**:
+   - Check the response from the server in the lower section of Postman. You should see a response similar to the following:
+   ```json
+   {
+       "contact": {
+           "primaryContatctId": 1,
+           "emails": [
+               "mcfly@hillvalley.edu",
+               "test@example.com"
+           ],
+           "phoneNumbers": [
+               "123456"
+           ],
+           "secondaryContactIds": [
+               7
+           ]
+       }
+   }
+   ```
+
+### Example of the Postman Setup
+
+- **Request Type**: POST
+- **URL**: `http://localhost:3000/identify`
+- **Headers**:
+  - `Content-Type`: `application/json`
+- **Body**:
+  ```json
+  {
+      "email": "test@example.com",
+      "phoneNumber": "123456"
+  }
+  ```
+
+### Summary
+This section will help users understand how to test your API using Postman and what output to expect when they send a request to the `/identify` endpoint.
+
+
 ## Deployment
 
 To deploy the application, run:
